@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipe Management</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Equipe Management</h1>
+    <button onclick="window.location.href='create.html'">+ Ajouter Equipe</button> <button onclick="window.location.href='../accueil.html'">Back</button><br><br>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>NE</th>
+                <th>Nom</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="equipeTableBody"></tbody>
+    </table>
+
+    <script>
+        // Load Equipe data dynamically
+        fetch('read.php')
+            .then(response => response.json())
+            .then(data => {
+                let tbody = document.querySelector('#equipeTableBody');
+                tbody.innerHTML = ''; // Clear existing content
+
+                data.forEach(row => {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.NE}</td>
+                        <td>${row.NOM}</td>
+                        <td>
+                            <button onclick="window.location.href='update.php?ne=${row.NE}'">Update</button>
+                            <button onclick="confirmDelete(${row.NE})">Delete</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
+        // Function to delete Equipe
+        function confirmDelete(ne) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                window.location.href = `delete.php?ne=${ne}`;
+            }
+        }
+    </script>
+</body>
+</html>

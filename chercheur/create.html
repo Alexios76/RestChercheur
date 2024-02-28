@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter Chercheur</title>
+</head>
+<body>
+    <h1>Ajouter Chercheur</h1>
+    <form id="createChercheurForm" action="create.php" method="POST">
+        <label for="nom">Nom:</label>
+        <input type="text" id="nom" name="nom" required><br><br>
+        
+        <label for="prenom">Prénom:</label>
+        <input type="text" id="prenom" name="prenom" required><br><br>
+        
+        <label for="equipe_id">Equipe:</label>
+        <input type="text" id="equipe_id" name="equipe_id" required><br><br>
+        
+        <button type="submit">Ajouter</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chercheurs</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chercheurs</h1>
+    <button onclick="window.location.href='create.html'">+ Ajouter Chercheur</button> <button onclick="window.location.href='../accueil.html'">Back</button><br><br>
+    <table id="chercheurTable">
+        <thead>
+            <tr>
+                <th>NC</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Equipe</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="chercheurTableBody">
+            <!-- Data will be loaded dynamically here -->
+        </tbody>
+    </table>
+
+    <script>
+        // Load data dynamically
+        fetch('read.php')
+            .then(response => response.json())
+            .then(data => {
+                let tbody = document.querySelector('#chercheurTableBody');
+                tbody.innerHTML = ''; // Clear existing content
+    
+                data.forEach(row => {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.NC}</td>
+                        <td>${row.NOM}</td>
+                        <td>${row.PRENOM}</td>
+                        <td>${row.equipe_nom}</td>
+                        <td>
+                            <button onclick="window.location.href='update.php?nc=${row.NC}'">Modifier</button>
+                            <button onclick="confirmDelete(${row.NC})">Supprimer</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+
+        function confirmDelete(nc) {
+            if (confirm('Are you sure you want to delete this record?')) {
+                window.location.href = `delete.php?nc=${nc}`;
+            }
+        }
+    </script>
+</body>
+</html>
